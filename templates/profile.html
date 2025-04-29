@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/profile1.css' %}">
+<a href="{% url 'home' %}" class="cerrarBoton"><img src="https://cdn-icons-png.flaticon.com/128/18045/18045455.png" alt="go back"></a>
+
+<div class="container-nombres">
+  {% if user.picture %}
+    <img src="{{user.picture.url}}" alt="Foto del Foto_Usuario">
+  {% else %}
+    <img src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="default">
+  {% endif %}
+  <div class="nombre-info">
+    <h2>{{user.username}}</h2>  
+    
+    <button id="buttonInfo"><img src="https://cdn-icons-png.flaticon.com/128/858/858962.png" alt="info"></button>
+    <div id="Informacion-modal" style="display: none;">
+      <div class="header-modal-informacion">
+        <h2>Informacion del usuario</h2>
+        <button id="cerrar_modal_informacion" class="close_button">Cerrar</button>
+      </div>
+      <form action="{% url 'info_user' %}" method="post" id="Informacion-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Actualizar</button>
+      </form>
+  </div>
+
+    </div>
+    </div>
+    <div class="description-head">
+      {% if user.description %}
+    
+      <p>{{ user.description }}</p>
+      {% endif %}
+  
+      <button id="crear_description"><img src="https://cdn-icons-png.flaticon.com/128/12116/12116350.png" alt="description"></button>
+    </div>
+
+    <div id="modal_overlay"></div>   
+    
+    <div id="description_modal">
+      <div class="modal_header">
+        <h3>Description</h3>
+        <button id="cerrar_modal_description" class="close_button">
+          <img src="https://cdn-icons-png.flaticon.com/128/18045/18045455.png"     alt="cerrar">
+        </button>
+      </div>
+      <form action="{% url 'crear_description' %}" method="post" id="description_form">
+        {% csrf_token %}
+        <textarea name="description" id="description" required></textarea>
+        <button type="submit" class="submit_button">Guardar</button>
+      </form>
+    </div>
+
+</div>
+
+<div class="div-articulos">
+    <h2>Tus articulos</h2>
+    {% if articulos %}
+    {% for arti in articulos %}
+    <span><a href="{% url 'articulo_view' arti.id %}">{{arti.title}}</a></span>
+    <div class="botones">
+        <a href="{% url 'editar_articulo' arti.id %}" ><img src="https://cdn-icons-png.flaticon.com/128/12116/12116350.png" alt="Editar"></a>
+        <a href="{% url 'eliminar_articulo' arti.id %}"><img src="https://cdn-icons-png.flaticon.com/128/5610/5610967.png" alt="Borrar"></a>
+    </div>
+    <br><br>
+    {% endfor  %}
+    {% else %}
+    <a href="{% url 'crear_articulo' %}">Crea un nuevo articulo</a>
+    {% endif %}
+</div>
+<script src="{% static 'js/profile.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/logout.css' %}">
+<div class="container">
+    <h2>Seguro quieres cerrar sesion?</h2>
+    <form action="/accounts/logout/" method="post">
+        {% csrf_token %}
+        <button type="submit">Cerrar</button>
+    </form>
+    <a href="{% url 'home' %}">Cancelar</a>
+</div>
+{% endblock %}

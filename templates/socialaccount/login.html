@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/google1.css' %}">
+<div>
+    <h2>Deseas continuar con google</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Continue</button>
+    </form>
+    <a href="{% url 'home' %}">Cancelar</a>
+</div>
+
+
+{% endblock %}

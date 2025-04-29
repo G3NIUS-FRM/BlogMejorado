@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% load socialaccount %}
+{% block content %}
+
+<header>
+    <h1>BlogPersonal</h1>
+    
+    <nav>
+        <ul>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'profile_view' %}">Profile</a></li>
+            <li><a href="{% url 'account_logout' %}">Logout</a></li>
+            {% else %}
+            <li><a href="{% provider_login_url 'google' process='login' %}"><img src="https://img.icons8.com/?size=48&id=17949&format=png" alt=""></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+
+<div class="h2-a">
+    <h2>Articulos</h2>
+    {% if user.is_authenticated %}
+    <a class="crearArti" href="{% url 'crear_articulo' %}">Crear articulo</a>
+    {% else %}
+    <a class="crearArti" href="{% provider_login_url 'google' process='login' %}">Crear articulo</a>
+    {% endif %}
+</div>
+<section>
+    {% for arti in articulos %}
+    <div class="articles_container">
+        
+        <a href="{% url 'articulo_view' arti.id %}"><h3 class="articles_title">{{arti.title}}</h3></a>
+        
+
+        <div class="date_autor">
+            <span class="articles_fecha">{{arti.created_at}}</span>
+            {% if arti.autor.picture %}
+            <span class="articles_autor"><img src="{{arti.autor.picture.url}}" alt="{{arti.autor}}"></span>
+            {% else %}
+            <span class="articles_autor"><img src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="{{arti.autor}}"></span>
+            {% endif %}
+        </div>
+        
+        {% if user == arti.autor %}
+        <div class="botones">
+            <a href="{% url 'editar_articulo' arti.id %}" ><img src="https://cdn-icons-png.flaticon.com/128/12116/12116350.png" alt="Editar"></a>
+            <a href="{% url 'eliminar_articulo' arti.id %}"><img src="https://cdn-icons-png.flaticon.com/128/5610/5610967.png" alt="Borrar"></a>
+        </div>
+        
+        {% endif %}
+    </div>
+    {% endfor %}
+
+</section>
+
+
+
+{% endblock %}

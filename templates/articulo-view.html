@@ -1,0 +1,71 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/articulo5_view.css' %}">
+<a href="{% url 'home' %}">
+    <img class="back" src="https://cdn-icons-png.flaticon.com/128/18045/18045455.png" alt="goback">
+</a>
+<div class="container-main">
+    <div class="title-description">
+        <h2>
+            {{articulo.title}}
+        </h2>
+        
+        <p>
+            {{articulo.description}}
+        </p>
+    </div>
+    
+    <div class="fecha-autor">
+        <span>{{articulo.created_at}}</span>
+        <span>{{articulo.autor}}</span>
+    </div>
+    <div class="likes-comments">
+        {% if your_like %}
+        <a href="{% url 'likes' articulo.id %}"><img src="https://cdn-icons-png.flaticon.com/128/833/833472.png" alt="Likes">
+            {% if likes == None %}
+            0
+            {% else %}
+            {{likes}}
+
+            {% endif %}
+        </a>
+
+        {% else %}
+        <a href="{% url 'likes' articulo.id %}"><img src="https://cdn-icons-png.flaticon.com/128/2961/2961957.png" alt="Likes">
+            {% if likes == None %}
+            0
+            {% else %}
+            {{likes}}
+
+            {% endif %}
+        </a>
+        {% endif %}
+
+
+        {% if comentario == None %}
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/9384/9384045.png" alt="comment">0</a>
+        {% else %}
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/9384/9384045.png" alt="comment">{{num_comentarios}}</a>
+        {% endif %}
+    </div>
+
+</div>
+<div class="comments_box">
+    <form action="{% url 'comentar' articulo.id%}" method="post">
+        {% csrf_token %}
+        <textarea name="comentario" id="coment"></textarea>
+        <button type="submit">comentar</button>
+    </form>
+
+</div>
+<div class="comments_list">
+    {% for comm in comentario %}
+        <div class="comment">
+            <p>{{ comm.content }}</p>
+            <span>— {{ comm.autor }}</span>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
