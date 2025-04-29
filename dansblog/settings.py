@@ -18,6 +18,8 @@ from dotenv import load_dotenv
 #Para poder buscar las variables de entorno y otras rutas
 import os
 
+import pymysql
+pymysql.install_as_MySQLdb()
 #Cargando el variables de entorno
 load_dotenv()
 

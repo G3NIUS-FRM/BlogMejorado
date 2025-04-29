@@ -7,7 +7,7 @@ Django==5.2
 django-allauth==65.7.0
 dotenv==0.9.9
 idna==3.10
-mysqlclient==2.2.7
+
 pillow==11.2.1
 pycparser==2.22
 PyJWT==2.10.1
